@@ -7,10 +7,12 @@ import java.util.List;
 
 import javax.validation.constraints.NotNull;
 
+import org.springframework.asm.Type;
 import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.PreparedStatementCreatorFactory;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import tacos.Ingredient;
@@ -18,6 +20,7 @@ import tacos.IngredientRef;
 import tacos.Taco;
 import tacos.TacoOrder;
 
+@Repository
 public class JdbcOrderRepository implements OrderRepository {
 
 	private JdbcOperations jdbcOperations;
@@ -30,9 +33,7 @@ public class JdbcOrderRepository implements OrderRepository {
 	@Override
 	public TacoOrder save(TacoOrder order) {
 		PreparedStatementCreatorFactory pscf = new PreparedStatementCreatorFactory(
-				"insert into taco_order" + "\"(delivery_name, delivery_street, delivery_city, \"\r\n"
-						+ "+ \"delivery_state, delivery_zip, cc_number, \"\r\n"
-						+ "+ \"cc_expiration, cc_cvv, placed_at)" + "values(?,?,?,?,?,?,?,?,?)",
+				"insert into taco_order(deliveryName, deliveryStreet, deliveryCity,deliveryState, deliveryZip, ccNumber,ccExpiration, ccCVV, placedAt)values(?,?,?,?,?,?,?,?,?)",
 				Types.VARCHAR, Types.VARCHAR, Types.VARCHAR, Types.VARCHAR, Types.VARCHAR, Types.VARCHAR, Types.VARCHAR,
 				Types.VARCHAR, Types.TIMESTAMP);
 		pscf.setReturnGeneratedKeys(true);
@@ -56,8 +57,8 @@ public class JdbcOrderRepository implements OrderRepository {
 	private long saveTaco(Long orderId, int orderKey, Taco taco) {
 		taco.setCreatedAt(new Date());
 		PreparedStatementCreatorFactory pscf = new PreparedStatementCreatorFactory(
-				"insert into Taco(name, created_at, taco_order, taco_order_key)" + "value(?, ?, ?, ?)", Types.VARCHAR,
-				Types.TIMESTAMP, Types.BIGINT, Types.BIGINT);
+				"insert into Taco(id, name , type)" + "value(?, ?, ?)", Types.VARCHAR,
+				Types.INTEGER, Types.VARCHAR, Types.TIMESTAMP);
 		pscf.setReturnGeneratedKeys(true);
 
 		PreparedStatementCreator psc = pscf
@@ -76,9 +77,9 @@ public class JdbcOrderRepository implements OrderRepository {
 		int key = 0;
 		for (IngredientRef ingredientRef : ingredientRefs) {
 			jdbcOperations.update(
-					"insert into Ingredient_ref(ingredient, taco, taco_key)"
-					+ "values(?, ?, ?)",
-							ingredientRef.getIngredient(), tacoId, key++
+					"insert into taco_ingredients(taco, ingredient)"
+					+ "values(?, ?)",
+						tacoId, ingredientRef.getIngredient()
 					);
 		}
 	}

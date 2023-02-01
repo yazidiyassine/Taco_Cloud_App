@@ -18,7 +18,7 @@ create table  Taco_Ingredients (
 );
 --drop table Taco_Order;
 create table Taco_Order (
-	id int primary key,
+	id identity,
 	deliveryName varchar(50) not null,
 	deliveryStreet varchar(50) not null,
 	deliveryCity varchar(50) not null,
