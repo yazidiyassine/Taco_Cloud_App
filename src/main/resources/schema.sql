@@ -1,3 +1,4 @@
+
 --drop table Ingredient;
 create table Ingredient (
   id varchar(4) primary key,
