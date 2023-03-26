@@ -1,10 +1,11 @@
-package tacos.data;
+/*package tacos.data;
 
 import java.sql.Types;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import javax.validation.constraints.NotNull;
 
@@ -58,8 +59,8 @@ public class JdbcOrderRepository implements OrderRepository {
 	private long saveTaco(Long orderId, int orderKey, Taco taco) {
 		taco.setCreatedAt(new Date());
 		PreparedStatementCreatorFactory pscf = new PreparedStatementCreatorFactory(
-				"insert into Taco(id, name , type)" + "value(?, ?, ?)", Types.VARCHAR,
-				Types.INTEGER, Types.VARCHAR, Types.TIMESTAMP);
+				"insert into Taco(id, name , type)" + "value(?, ?, ?)", Types.VARCHAR, Types.INTEGER, Types.VARCHAR,
+				Types.TIMESTAMP);
 		pscf.setReturnGeneratedKeys(true);
 
 		PreparedStatementCreator psc = pscf
@@ -69,19 +70,15 @@ public class JdbcOrderRepository implements OrderRepository {
 		long tacoId = keyHolder.getKey().longValue();
 		taco.setId(tacoId);
 
-		//saveIngredientRefs(tacoId, taco.getIngredients());
+		// saveIngredientRefs(tacoId, taco.getIngredients());
 		return tacoId;
 	}
-	
 
 	private void saveIngredientRefs(Long tacoId, List<IngredientRef> ingredientRefs) {
 		int key = 0;
 		for (IngredientRef ingredientRef : ingredientRefs) {
-			jdbcOperations.update(
-					"insert into taco_ingredients(taco, ingredient)"
-					+ "values(?, ?)",
-						tacoId, ingredientRef.getIngredient()
-					);
+			jdbcOperations.update("insert into taco_ingredients(taco, ingredient)" + "values(?, ?)", tacoId,
+					ingredientRef.getIngredient());
 		}
 	}
 
@@ -124,31 +121,31 @@ public class JdbcOrderRepository implements OrderRepository {
 	@Override
 	public void deleteById(Long id) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void delete(TacoOrder entity) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void deleteAllById(Iterable<? extends Long> ids) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void deleteAll(Iterable<? extends TacoOrder> entities) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void deleteAll() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -156,4 +153,4 @@ public class JdbcOrderRepository implements OrderRepository {
 		// TODO Auto-generated method stub
 		return null;
 	}
-}
+}*/

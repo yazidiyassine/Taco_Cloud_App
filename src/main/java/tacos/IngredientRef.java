@@ -1,6 +1,7 @@
 package tacos;
 
-import org.springframework.data.relational.core.mapping.Table;
+
+import org.springframework.data.cassandra.core.mapping.Table;
 
 import lombok.Data;
 
